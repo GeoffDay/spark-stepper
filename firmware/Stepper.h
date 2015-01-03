@@ -5,7 +5,8 @@
   Two-wire modifications   (0.2) by Sebastian Gassner
   Combination version   (0.3) by Tom Igoe and David Mellis
   Bug fix for four-wire   (0.4) by Tom Igoe, bug fix from Noah Shibley
-
+  Wave step mode      (0.5) by Geoff Day
+  
   Drives a unipolar or bipolar stepper motor using  2 wires or 4 wires
 
   When wiring multiple stepper motors to a microcontroller,
@@ -39,6 +40,16 @@
 
   The circuits can be found at
   http://www.arduino.cc/en/Tutorial/Stepper
+  
+  The Wave step sequence of control signals for 4 control wires is as follows:
+
+  Step C0 C1 C2 C3
+     1  1  0  0  0
+     2  0  0  1  0
+     3  0  1  0  0
+     4  0  0  0  1
+     
+  Good for lower power operation where lower torque is ok.   
 */
 
 // ensure this library description is only included once
