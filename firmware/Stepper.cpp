@@ -84,6 +84,7 @@ Stepper::Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2)
 
 Stepper::Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4)
 {
+  this->mode = 0;     // full step mode = 0
   this->step_number = 0;      // which step the motor is on
   this->speed = 0;        // the motor speed, in revolutions per minute
   this->direction = 0;      // motor direction
@@ -105,6 +106,16 @@ Stepper::Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int moto
   // pin_count is used by the stepMotor() method:
   this->pin_count = 4;
 }
+
+/* 
+  set stepper mode, full or wave currently. Wave mode for low power applications.
+  only applicable in 4 wire setups.
+*/
+
+  void setMode(int mode)
+  {
+    this->mode = mode;
+  }
 
 /*
   Sets the speed in revs per minute
@@ -164,48 +175,68 @@ void Stepper::stepMotor(int thisStep)
   if (this->pin_count == 2) {
     switch (thisStep) {
       case 0: /* 01 */
-      digitalWrite(motor_pin_1, LOW);
-      digitalWrite(motor_pin_2, HIGH);
+        digitalWrite(motor_pin_1, LOW);
+        digitalWrite(motor_pin_2, HIGH);
       break;
       case 1: /* 11 */
-      digitalWrite(motor_pin_1, HIGH);
-      digitalWrite(motor_pin_2, HIGH);
+        digitalWrite(motor_pin_1, HIGH);
+        digitalWrite(motor_pin_2, HIGH);
       break;
       case 2: /* 10 */
-      digitalWrite(motor_pin_1, HIGH);
-      digitalWrite(motor_pin_2, LOW);
+        digitalWrite(motor_pin_1, HIGH);
+        digitalWrite(motor_pin_2, LOW);
       break;
       case 3: /* 00 */
-      digitalWrite(motor_pin_1, LOW);
-      digitalWrite(motor_pin_2, LOW);
+        digitalWrite(motor_pin_1, LOW);
+        digitalWrite(motor_pin_2, LOW);
       break;
     }
   }
   if (this->pin_count == 4) {
     switch (thisStep) {
       case 0:    // 1010
-      digitalWrite(motor_pin_1, HIGH);
-      digitalWrite(motor_pin_2, LOW);
-      digitalWrite(motor_pin_3, HIGH);
-      digitalWrite(motor_pin_4, LOW);
+        digitalWrite(motor_pin_1, HIGH);
+        digitalWrite(motor_pin_2, LOW);
+        // mode high for wave step
+        if (mode) { 
+          digitalWrite(motor_pin_3, LOW);
+        } else {
+          digitalWrite(motor_pin_3, HIGH);
+        }
+        digitalWrite(motor_pin_4, LOW);
       break;
       case 1:    // 0110
-      digitalWrite(motor_pin_1, LOW);
-      digitalWrite(motor_pin_2, HIGH);
-      digitalWrite(motor_pin_3, HIGH);
-      digitalWrite(motor_pin_4, LOW);
+        digitalWrite(motor_pin_1, LOW);
+        // mode high for wave step
+        if (mode) { 
+          digitalWrite(motor_pin_2, LOW);
+        } else {
+          digitalWrite(motor_pin_2, HIGH);
+        }
+        digitalWrite(motor_pin_3, HIGH);
+        digitalWrite(motor_pin_4, LOW);
       break;
       case 2:    //0101
-      digitalWrite(motor_pin_1, LOW);
-      digitalWrite(motor_pin_2, HIGH);
-      digitalWrite(motor_pin_3, LOW);
-      digitalWrite(motor_pin_4, HIGH);
+        digitalWrite(motor_pin_1, LOW);
+        digitalWrite(motor_pin_2, HIGH);
+        digitalWrite(motor_pin_3, LOW);
+        // mode high for wave step
+        if (mode) { 
+            digitalWrite(motor_pin_4, LOW);
+        } else {
+            digitalWrite(motor_pin_4, HIGH);
+        }
       break;
       case 3:    //1001
-      digitalWrite(motor_pin_1, HIGH);
-      digitalWrite(motor_pin_2, LOW);
-      digitalWrite(motor_pin_3, LOW);
-      digitalWrite(motor_pin_4, HIGH);
+        // mode high for wave step
+        if (mode) { 
+          digitalWrite(motor_pin_1, LOW);
+        } else {
+          digitalWrite(motor_pin_1, HIGH);
+        }
+        digitalWrite(motor_pin_2, LOW);
+        digitalWrite(motor_pin_3, LOW);
+        digitalWrite(motor_pin_4, HIGH);
       break;
     }
   }
@@ -216,5 +247,5 @@ void Stepper::stepMotor(int thisStep)
 */
 int Stepper::version(void)
 {
-  return 4;
+  return 5;
 }
