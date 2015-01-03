@@ -51,7 +51,8 @@ class Stepper {
     // constructors:
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2);
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4);
-
+    Wave(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4);
+    
     // speed setter method:
     void setSpeed(long whatSpeed);
 
