@@ -51,7 +51,9 @@ class Stepper {
     // constructors:
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2);
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4);
-    Wave(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4);
+    
+    // set stepper mode, full or wave currently. Wave mode for low power applications
+    void setMode(int mode);
     
     // speed setter method:
     void setSpeed(long whatSpeed);
@@ -64,6 +66,7 @@ class Stepper {
   private:
     void stepMotor(int this_step);
 
+    int mode            // full = 0, wave = 1. future half = 2
     int direction;        // Direction of rotation
     int speed;          // Speed in RPMs
     unsigned long step_delay;    // delay between steps, in ms, based on speed
