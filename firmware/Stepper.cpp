@@ -112,7 +112,7 @@ Stepper::Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int moto
   only applicable in 4 wire setups.
 */
 
-  void setMode(int mode)
+  void Stepper::setMode(int mode)
   {
     this->mode = mode;
   }
@@ -198,7 +198,7 @@ void Stepper::stepMotor(int thisStep)
         digitalWrite(motor_pin_1, HIGH);
         digitalWrite(motor_pin_2, LOW);
         // mode high for wave step
-        if (mode) { 
+        if (this->mode) { 
           digitalWrite(motor_pin_3, LOW);
         } else {
           digitalWrite(motor_pin_3, HIGH);
@@ -208,7 +208,7 @@ void Stepper::stepMotor(int thisStep)
       case 1:    // 0110
         digitalWrite(motor_pin_1, LOW);
         // mode high for wave step
-        if (mode) { 
+        if (this->mode) { 
           digitalWrite(motor_pin_2, LOW);
         } else {
           digitalWrite(motor_pin_2, HIGH);
@@ -221,7 +221,7 @@ void Stepper::stepMotor(int thisStep)
         digitalWrite(motor_pin_2, HIGH);
         digitalWrite(motor_pin_3, LOW);
         // mode high for wave step
-        if (mode) { 
+        if (this->mode) { 
             digitalWrite(motor_pin_4, LOW);
         } else {
             digitalWrite(motor_pin_4, HIGH);
@@ -229,7 +229,7 @@ void Stepper::stepMotor(int thisStep)
       break;
       case 3:    //1001
         // mode high for wave step
-        if (mode) { 
+        if (this->mode) { 
           digitalWrite(motor_pin_1, LOW);
         } else {
           digitalWrite(motor_pin_1, HIGH);
