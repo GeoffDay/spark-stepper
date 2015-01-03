@@ -77,7 +77,7 @@ class Stepper {
   private:
     void stepMotor(int this_step);
 
-    int mode            // full = 0, wave = 1. future half = 2
+    int mode;            // full = 0, wave = 1. future half = 2
     int direction;        // Direction of rotation
     int speed;          // Speed in RPMs
     unsigned long step_delay;    // delay between steps, in ms, based on speed
