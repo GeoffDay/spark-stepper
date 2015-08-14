@@ -1,11 +1,12 @@
 /*
-  Stepper.h - - Stepper library for Wiring/Arduino - Version 0.4
+  Stepper.h - - Stepper library for Wiring/Arduino - Version 0.6
 
   Original library     (0.1) by Tom Igoe.
   Two-wire modifications   (0.2) by Sebastian Gassner
   Combination version   (0.3) by Tom Igoe and David Mellis
   Bug fix for four-wire   (0.4) by Tom Igoe, bug fix from Noah Shibley
   Wave step mode      (0.5) by Geoff Day
+  4 wire sleep mode   (0.6) by Geoff Day
   
   Drives a unipolar or bipolar stepper motor using  2 wires or 4 wires
 
@@ -49,7 +50,9 @@
      3  0  1  0  0
      4  0  0  0  1
      
-  Good for lower power operation where lower torque is ok.   
+  Good for lower power operation where lower torque is ok.
+  Can also be put into sleep mode if no holding torque can 
+  be tolerated.  
 */
 
 // ensure this library description is only included once
@@ -62,6 +65,9 @@ class Stepper {
     // constructors:
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2);
     Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4);
+    
+    // set to sleep mode for lower power consumption
+    void setSleep(int sleep);
     
     // set stepper mode, full or wave currently. Wave mode for low power applications
     void setMode(int mode);
@@ -76,14 +82,14 @@ class Stepper {
 
   private:
     void stepMotor(int this_step);
-
-    int mode;            // full = 0, wave = 1. future half = 2
-    int direction;        // Direction of rotation
-    int speed;          // Speed in RPMs
-    unsigned long step_delay;    // delay between steps, in ms, based on speed
-    int number_of_steps;      // total number of steps this motor can take
-    int pin_count;        // whether you're driving the motor with 2 or 4 pins
-    int step_number;        // which step the motor is on
+    int sleep;                    // high for sleep mode
+    int mode;                     // full = 0, wave = 1. future half = 2
+    int direction;                // Direction of rotation
+    int speed;                    // Speed in RPMs
+    unsigned long step_delay;     // delay between steps, in ms, based on speed
+    int number_of_steps;          // total number of steps this motor can take
+    int pin_count;                // whether you're driving the motor with 2 or 4 pins
+    int step_number;              // which step the motor is on
 
     // motor pin numbers:
     int motor_pin_1;
@@ -91,7 +97,7 @@ class Stepper {
     int motor_pin_3;
     int motor_pin_4;
 
-    long last_step_time;      // time stamp in ms of when the last step was taken
+    long last_step_time;          // time stamp in ms of when the last step was taken
 };
 
 #endif
