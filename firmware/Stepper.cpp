@@ -1,12 +1,13 @@
 
 /*
-  Stepper.cpp - - Stepper library for Wiring/Arduino - Version 0.4
+  Stepper.cpp - - Stepper library for Wiring/Arduino - Version 0.6
 
-  Original library     (0.1) by Tom Igoe.
-  Two-wire modifications   (0.2) by Sebastian Gassner
-  Combination version   (0.3) by Tom Igoe and David Mellis
-  Bug fix for four-wire   (0.4) by Tom Igoe, bug fix from Noah Shibley
-  Wave step mode      (0.5) by Geoff Day
+  Original library                  (0.1) by Tom Igoe.
+  Two-wire modifications            (0.2) by Sebastian Gassner
+  Combination version               (0.3) by Tom Igoe and David Mellis
+  Bug fix for four-wire             (0.4) by Tom Igoe, bug fix from Noah Shibley
+  Wave step mode for 4 wire systems (0.5) by Geoff Day
+  Sleep mode for 4 wire systems     (0.6) by Geoff Day
   
   Drives a unipolar or bipolar stepper motor using  2 wires or 4 wires
   When wiring multiple stepper motors to a microcontroller,
@@ -42,7 +43,7 @@
      4  0  0  0  1
      
   Good for lower power operation where lower torque is ok.   
-
+  sleep mode when high sends all outputs low. No holding torque! 
  */
 
 #include "application.h"
@@ -113,7 +114,7 @@ Stepper::Stepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int moto
   Remember there's no holding torque!!!
 */
 
-  void setSleep(int sleep)
+  void Stepper::setSleep(int sleep)
   {
     this->sleep = sleep;
   }
