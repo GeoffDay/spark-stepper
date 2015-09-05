@@ -270,5 +270,5 @@ void Stepper::stepMotor(int thisStep)
 */
 int Stepper::version(void)
 {
-  return 6;
+  return 7;
 }
